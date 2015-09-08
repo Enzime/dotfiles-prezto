@@ -1,0 +1,60 @@
+#
+# Executes commands at the start of an interactive session.  Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+# 
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+eval $(dircolors ~/.dircolors)
+
+alias sudo="sudo "
+alias md="mkdir"
+alias pacman="pacmatic"
+alias l="ls -lah"
+alias mp="mpv --no-video"
+
+# fasd
+alias a="fasd -a"
+alias c="fasd_cd -d"
+alias di="fasd -d"
+alias f="fasd -f"
+alias m="fasd -e mpv -f"
+alias v="fasd -e vim -f"
+
+export VISUAL=vim
+export EDITOR=vim
+
+function folder-chooser {
+	VISUAL=ranger-folder-selector zle edit-command-line
+}
+
+function file-chooser {
+	VISUAL=ranger-file-selector zle edit-command-line
+}
+
+function ranger-cd {
+	tempfile=$(mktemp)
+	ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
+	test -f "$tempfile" &&
+	if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+		cd -- "$(cat "$tempfile")"
+	fi
+	rm -f -- "$tempfile"
+	VISUAL=true zle edit-command-line
+}
+
+autoload -z edit-command-line
+zle -N edit-command-line
+
+zle -N folder-chooser
+zle -N file-chooser
+zle -N ranger-cd
+
+bindkey '^E^E' edit-command-line
+bindkey '^Ed' folder-chooser
+bindkey '^Ef' file-chooser
+bindkey '^Ec' ranger-cd
+
