@@ -13,7 +13,7 @@ alias _="sudo"
 alias sudo="sudo "
 alias md="mkdir"
 alias pacman="pacmatic"
-alias ls="ls -F"
+alias ls="ls -F --color=auto"
 alias l="ls -lah"
 alias mp="mpv --no-video"
 
