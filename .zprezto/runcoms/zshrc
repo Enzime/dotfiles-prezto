@@ -16,6 +16,7 @@ alias pacman="pacmatic"
 alias ls="ls -F --color=auto"
 alias l="ls -lah"
 alias mp="mpv --no-video"
+alias ranger="ranger-cd"
 
 # fasd
 alias a="fasd -a"
@@ -38,25 +39,46 @@ function file-chooser {
 
 function ranger-cd {
 	tempfile=$(mktemp)
-	ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
+	\ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
 	test -f "$tempfile" &&
 	if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
 		cd -- "$(cat "$tempfile")"
 	fi
 	rm -f -- "$tempfile"
+}
+
+function carry-ranger-cd {
+	ranger-cd
 	VISUAL=true zle edit-command-line
 }
+
+# percol
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+    function percol_select_history() {
+        local tac
+        exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        CURSOR=$#BUFFER         # move cursor
+        zle -R -c               # refresh
+    }
+
+    zle -N percol_select_history
+    bindkey '^R' percol_select_history
+    bindkey '^S' percol_select_history
+fi
 
 autoload -z edit-command-line
 zle -N edit-command-line
 
 zle -N folder-chooser
 zle -N file-chooser
-zle -N ranger-cd
+zle -N carry-ranger-cd
 
 bindkey '^E^E' edit-command-line
 bindkey '^Ed' folder-chooser
 bindkey '^Ef' file-chooser
-bindkey '^Ec' ranger-cd
+bindkey '^Ec' carry-ranger-cd
 
 export QT_STYLE_OVERRIDE=GTK+
