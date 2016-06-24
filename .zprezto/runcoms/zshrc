@@ -29,6 +29,10 @@ alias v="fasd -e vim -f"
 export VISUAL=vim
 export EDITOR=vim
 
+function gd {
+    git diff --color $@ | diff-so-fancy
+}
+
 function folder-chooser {
 	VISUAL=ranger-folder-selector zle edit-command-line
 }
@@ -94,3 +98,4 @@ bindkey '^Ea' volume-control
 bindkey '^Eh' open-htop
 
 export QT_STYLE_OVERRIDE=GTK+
+export STEAM_FRAME_FORCE_CLOSE=1
