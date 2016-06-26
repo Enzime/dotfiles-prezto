@@ -17,6 +17,7 @@ alias ls="ls -F --color=auto"
 alias l="ls -lah"
 alias mp="mpv --no-video"
 alias ranger="ranger-cd"
+alias v="vcsh"
 
 # fasd
 alias a="fasd -a"
@@ -24,13 +25,17 @@ alias c="fasd_cd -d"
 alias di="fasd -d"
 alias f="fasd -f"
 alias m="fasd -e mpv -f"
-alias v="fasd -e vim -f"
+# alias v="fasd -e vim -f"
 
 export VISUAL=vim
 export EDITOR=vim
 
 function gd {
     git diff --color $@ | diff-so-fancy
+}
+
+function vd {
+    vcsh $1 diff --color ${@:2} | diff-so-fancy
 }
 
 function folder-chooser {
