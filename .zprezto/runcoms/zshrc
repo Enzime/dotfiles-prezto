@@ -61,21 +61,21 @@ function carry-ranger-cd {
 	VISUAL=true zle edit-command-line
 }
 
-# percol
+# peco
 function exists { which $1 &> /dev/null }
 
-if exists percol; then
-    function percol_select_history() {
+if exists peco; then
+    function peco_select_history() {
         local tac
         exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-        BUFFER=$(fc -l -n 1 | eval $tac | percol --query "$LBUFFER")
+        BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
         CURSOR=$#BUFFER         # move cursor
         zle -R -c               # refresh
     }
 
-    zle -N percol_select_history
-    bindkey '^R' percol_select_history
-    bindkey '^S' percol_select_history
+    zle -N peco_select_history
+    bindkey '^R' peco_select_history
+    bindkey '^S' peco_select_history
 fi
 
 function volume-control {
@@ -101,6 +101,9 @@ bindkey '^Ef' file-chooser
 bindkey '^Ec' carry-ranger-cd
 bindkey '^Ea' volume-control
 bindkey '^Eh' open-htop
+bindkey -s '^Et' 'tt\n'
 
 export QT_STYLE_OVERRIDE=GTK+
 export STEAM_FRAME_FORCE_CLOSE=1
+
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
