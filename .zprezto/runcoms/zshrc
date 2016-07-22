@@ -39,26 +39,26 @@ function vd {
 }
 
 function folder-chooser {
-	VISUAL=ranger-folder-selector zle edit-command-line
+    VISUAL=ranger-folder-selector zle edit-command-line
 }
 
 function file-chooser {
-	VISUAL=ranger-file-selector zle edit-command-line
+    VISUAL=ranger-file-selector zle edit-command-line
 }
 
 function ranger-cd {
-	tempfile=$(mktemp)
-	\ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
-	test -f "$tempfile" &&
-	if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
-		cd -- "$(cat "$tempfile")"
-	fi
-	rm -f -- "$tempfile"
+    tempfile=$(mktemp)
+    \ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
+    test -f "$tempfile" &&
+    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+        cd -- "$(cat "$tempfile")"
+    fi
+    rm -f -- "$tempfile"
 }
 
 function carry-ranger-cd {
-	ranger-cd
-	VISUAL=true zle edit-command-line
+    ranger-cd
+    VISUAL=true zle edit-command-line
 }
 
 # peco
@@ -79,12 +79,16 @@ if exists peco; then
 fi
 
 function volume-control {
-	VISUAL=alsamixer zle edit-command-line
+    VISUAL=alsamixer zle edit-command-line
 }
 
 function open-htop {
-	VISUAL=htop zle edit-command-line
+    VISUAL=htop zle edit-command-line
 }
+
+if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
+    source /usr/share/doc/pkgfile/command-not-found.zsh
+fi
 
 autoload -z edit-command-line
 zle -N edit-command-line
@@ -105,5 +109,4 @@ bindkey -s '^Et' 'tt\n'
 
 export QT_STYLE_OVERRIDE=GTK+
 export STEAM_FRAME_FORCE_CLOSE=1
-
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export TERM='xterm-termite'
