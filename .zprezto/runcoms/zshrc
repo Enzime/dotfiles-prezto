@@ -106,6 +106,8 @@ bindkey '^Ec' carry-ranger-cd
 bindkey '^Ea' volume-control
 bindkey '^Eh' open-htop
 bindkey -s '^Et' 'tt\n'
+bindkey -r '^[OA'
+bindkey -r '^[OB'
 
 export QT_STYLE_OVERRIDE=GTK+
 export STEAM_FRAME_FORCE_CLOSE=1
