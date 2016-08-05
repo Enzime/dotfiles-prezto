@@ -75,7 +75,6 @@ if exists peco; then
 
     zle -N peco_select_history
     bindkey '^R' peco_select_history
-    bindkey '^S' peco_select_history
 fi
 
 function volume-control {
@@ -99,6 +98,8 @@ zle -N carry-ranger-cd
 zle -N volume-control
 zle -N open-htop
 
+stty -ixon
+
 bindkey '^E^E' edit-command-line
 bindkey '^Ed' folder-chooser
 bindkey '^Ef' file-chooser
@@ -111,6 +112,7 @@ bindkey -r '^[OA'
 bindkey -r '^[OB'
 bindkey -r '^N'
 bindkey -r '^P'
+bindkey -r '^S'
 
 bindkey '^H' emacs-backward-word
 bindkey '^J' history-substring-search-down
