@@ -27,8 +27,8 @@ alias f="fasd -f"
 alias m="fasd -e mpv -f"
 # alias v="fasd -e vim -f"
 
-export VISUAL=vim
-export EDITOR=vim
+export VISUAL=nvim
+export EDITOR=nvim
 
 function gD {
     git diff --color $@ | diff-so-fancy
@@ -112,10 +112,10 @@ bindkey -r '^[OB'
 bindkey -r '^N'
 bindkey -r '^P'
 
-bindkey '^H' backward-word
+bindkey '^H' emacs-backward-word
 bindkey '^J' history-substring-search-down
 bindkey '^K' history-substring-search-up
-bindkey '^L' forward-word
+bindkey '^L' emacs-forward-word
 
 export QT_STYLE_OVERRIDE=GTK+
 export STEAM_FRAME_FORCE_CLOSE=1
