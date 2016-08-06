@@ -106,7 +106,7 @@ bindkey '^Ef' file-chooser
 bindkey '^Ec' carry-ranger-cd
 bindkey '^Ea' volume-control
 bindkey '^Eh' open-htop
-bindkey -s '^Et' 'tt\n'
+bindkey -s '^Et' 'tt^M'
 
 bindkey -r '^[OA'
 bindkey -r '^[OB'
