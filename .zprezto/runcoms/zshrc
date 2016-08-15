@@ -7,7 +7,17 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-eval $(dircolors ~/.dircolors)
+if [ -f ~/.dircolors ]; then
+    eval $(dircolors ~/.dircolors)
+fi
+
+if [ -f ~/.lesskey ]; then
+    lesskey
+fi
+
+if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
+    source /usr/share/doc/pkgfile/command-not-found.zsh
+fi
 
 alias _="sudo"
 alias sudo="sudo "
@@ -36,6 +46,15 @@ function gD {
 
 function vd {
     vcsh $1 diff --color ${@:2} | diff-so-fancy
+}
+
+function vs {
+    if [ -z "$1" ]; then
+        vcsh status
+    else
+        echo $1
+        vcsh $1 status
+    fi
 }
 
 function folder-chooser {
@@ -84,10 +103,6 @@ function volume-control {
 function open-htop {
     VISUAL=htop zle edit-command-line
 }
-
-if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
-    source /usr/share/doc/pkgfile/command-not-found.zsh
-fi
 
 autoload -z edit-command-line
 zle -N edit-command-line
