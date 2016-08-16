@@ -46,6 +46,16 @@ function gD {
     git diff --color $@ | diff-so-fancy
 }
 
+function gps {
+    branch=$(git rev-parse --abbrev-ref HEAD) || return 1
+    if [[ $branch != "HEAD" ]]; then
+        git push --set-upstream origin $branch
+    else
+        echo "Not on a branch"
+        return 1
+    fi
+}
+
 function vd {
     vcsh $1 diff --color ${@:2} | diff-so-fancy
 }
