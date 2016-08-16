@@ -29,6 +29,7 @@ alias mp="mpv --no-video"
 alias ranger="ranger-cd"
 alias v="vcsh"
 alias gs="git status"
+alias gln="gl -n"
 
 # fasd
 alias a="fasd -a"
