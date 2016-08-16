@@ -1,6 +1,5 @@
 #
-# Executes commands at the start of an interactive session.  Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
+# Executes commands at the start of an interactive session.  Authors: Sorin Ionescu <sorin.ionescu@gmail.com>
 # 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
@@ -10,9 +9,11 @@ fi
 # Customize to your needs...
 eval $(dircolors ~/.dircolors)
 
+alias _="sudo"
 alias sudo="sudo "
 alias md="mkdir"
 alias pacman="pacmatic"
+alias ls="ls -F"
 alias l="ls -lah"
 alias mp="mpv --no-video"
 
@@ -58,3 +59,4 @@ bindkey '^Ed' folder-chooser
 bindkey '^Ef' file-chooser
 bindkey '^Ec' ranger-cd
 
+export QT_STYLE_OVERRIDE=GTK+
