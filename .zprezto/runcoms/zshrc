@@ -53,8 +53,15 @@ function vs {
     if [ -z "$1" ]; then
         vcsh status
     else
-        echo $1
         vcsh $1 status
+    fi
+}
+
+function vp {
+    if [ -z "$1" ]; then
+        vcsh push
+    else
+        vcsh $1 push
     fi
 }
 
