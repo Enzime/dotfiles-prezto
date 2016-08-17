@@ -90,6 +90,15 @@ function vp {
     fi
 }
 
+function vpf {
+    if [ -z "$1" ]; then
+        echo "vpf requires a repository"
+        return 1
+    else
+        vcsh $1 push --force ${@:2}
+    fi
+}
+
 function folder-chooser {
     VISUAL=ranger-folder-selector zle edit-command-line
 }
