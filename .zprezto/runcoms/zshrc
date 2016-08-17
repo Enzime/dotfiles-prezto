@@ -78,7 +78,7 @@ function vs {
     if [ -z "$1" ]; then
         vcsh status
     else
-        vcsh $1 status
+        vcsh $1 status ${@:2}
     fi
 }
 
@@ -86,7 +86,7 @@ function vp {
     if [ -z "$1" ]; then
         vcsh push
     else
-        vcsh $1 push
+        vcsh $1 push ${@:2}
     fi
 }
 
