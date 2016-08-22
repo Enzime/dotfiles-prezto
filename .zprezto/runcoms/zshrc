@@ -7,25 +7,25 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-if [ -f ~/.dircolors ]; then
+if [[ -f ~/.dircolors ]]; then
     eval $(dircolors ~/.dircolors)
 fi
 
-if [ -f ~/.lesskey ]; then
+if [[ -f ~/.lesskey ]]; then
     lesskey
 fi
 
-if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
+if [[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
 export NVM_DIR="/home/enzime/.nvm"
 
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-    source "$NVM_DIR/nvm.sh"
+if [[ -s $NVM_DIR/nvm.sh ]]; then
+    source $NVM_DIR/nvm.sh
 fi
 
-if [ -s "/usr/bin/virtualenvwrapper.sh" ]; then
+if [[ -s /usr/bin/virtualenvwrapper.sh ]]; then
     source /usr/bin/virtualenvwrapper.sh
 
     export WORKON_HOME=~/.venvs
@@ -34,11 +34,11 @@ fi
 
 alias _="sudo"
 alias sudo="sudo "
-alias ,r="source ~/.zshrc"
 alias md="mkdir"
 alias pacman="pacmatic"
 alias ls="ls -F --color=auto"
 alias l="ls -lah"
+alias mr="req_ssh_agent mr"
 alias mp="mpv --no-video"
 alias ranger="ranger-cd"
 alias v="vcsh"
@@ -55,6 +55,18 @@ alias m="fasd -e mpv -f"
 
 export VISUAL=nvim
 export EDITOR=nvim
+
+function req_ssh_agent {
+    if [[ -z $SSH_AGENT_PID ]]; then
+        eval $(ssh-agent)
+    fi
+
+    if [[ $(ssh-add -l) = "The agent has no identities." ]]; then
+        ssh-add ~/.ssh/id_rsa
+    fi
+
+    $@
+}
 
 function gD {
     git diff --color $@ | diff-so-fancy
@@ -75,7 +87,7 @@ function vd {
 }
 
 function vs {
-    if [ -z "$1" ]; then
+    if [[ -z $1 ]]; then
         vcsh status
     else
         vcsh $1 status ${@:2}
@@ -83,19 +95,27 @@ function vs {
 }
 
 function vp {
-    if [ -z "$1" ]; then
-        vcsh push
+    if [[ -z $1 ]]; then
+        req_ssh_agent vcsh push
     else
         vcsh $1 push ${@:2}
     fi
 }
 
 function vpf {
-    if [ -z "$1" ]; then
+    if [[ -z $1 ]]; then
         echo "vpf requires a repository"
         return 1
     else
         vcsh $1 push --force ${@:2}
+    fi
+}
+
+function vf {
+    if [[ -z $1 ]]; then
+        req_ssh_agent vcsh foreach fetch
+    else
+        vcsh $1 fetch ${@:2}
     fi
 }
 
@@ -111,7 +131,7 @@ function ranger-cd {
     tempfile=$(mktemp)
     \ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
     test -f "$tempfile" &&
-    if [ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]; then
+    if [[ "$(cat -- "$tempfile")" != "$(echo -n `pwd`)" ]]; then
         cd -- "$(cat "$tempfile")"
     fi
     rm -f -- "$tempfile"
@@ -164,6 +184,7 @@ bindkey '^Ec' carry-ranger-cd
 bindkey '^Ea' volume-control
 bindkey '^Eh' open-htop
 bindkey -s '^Et' 'tt^M'
+bindkey -s ',R' 'source ~/.zshrc^M'
 
 bindkey -r '^[OA'
 bindkey -r '^[OB'
