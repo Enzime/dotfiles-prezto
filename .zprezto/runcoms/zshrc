@@ -42,6 +42,8 @@ alias mr="req_ssh_agent mr"
 alias mp="mpv --no-video"
 alias ranger="ranger-cd"
 alias v="vcsh"
+alias ga="git add -p"
+alias gC="git checkout"
 alias gs="git status"
 alias gln="gl -n"
 
@@ -79,6 +81,34 @@ function gps {
     else
         echo "Not on a branch"
         return 1
+    fi
+}
+
+function va {
+    if [[ -z $1 ]]; then
+        echo "va requires a repository"
+        exit 1
+    else
+        vcsh $1 add -p ${@:2}
+    fi
+}
+
+
+function vc {
+    if [[ -z $1 ]]; then
+        echo "vc requires a repository"
+        return 1
+    else
+        vcsh $1 commit ${@:2}
+    fi
+}
+
+function vC {
+    if [[ -z $1 ]]; then
+        echo "vC requires a repository"
+        return 1
+    else
+        vcsh $1 checkout ${@:2}
     fi
 }
 
