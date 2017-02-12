@@ -32,6 +32,9 @@ if [[ -s /usr/bin/virtualenvwrapper.sh ]]; then
     mkdir -p $WORKON_HOME
 fi
 
+# override prezto git gsd alias
+unalias gsd
+
 alias _="sudo"
 alias sudo="sudo "
 alias md="mkdir"
@@ -42,7 +45,6 @@ alias mr="req_ssh_agent mr"
 alias mp="mpv --no-video"
 alias ranger="ranger-cd"
 alias v="vcsh"
-alias ga="git add -p"
 alias gC="git checkout"
 alias gs="git status"
 alias gln="gl -n"
@@ -70,6 +72,14 @@ function req_ssh_agent {
     $@
 }
 
+function ga {
+    if [[ -z $1 ]]; then
+        git add -p
+    else
+        git add $@
+    fi
+}
+
 function gD {
     git diff --color $@ | diff-so-fancy
 }
@@ -82,6 +92,10 @@ function gps {
         echo "Not on a branch"
         return 1
     fi
+}
+
+function gsd {
+    git stash show --patch --stat --color $@ | diff-so-fancy
 }
 
 function va {
