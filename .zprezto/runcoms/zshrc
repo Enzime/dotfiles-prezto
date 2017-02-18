@@ -33,7 +33,7 @@ if [[ -s /usr/bin/virtualenvwrapper.sh ]]; then
 fi
 
 # override prezto git gsd alias
-unalias gsd
+alias gsd="gsd"
 
 alias _="sudo"
 alias sudo="sudo "
@@ -45,7 +45,10 @@ alias mr="req_ssh_agent mr"
 alias mp="mpv --no-video"
 alias ranger="ranger-cd"
 alias v="vcsh"
+
+alias gca="git commit --amend"
 alias gC="git checkout"
+alias gDs="gD --cached"
 alias gs="git status"
 alias gln="gl -n"
 
@@ -98,36 +101,42 @@ function gsd {
     git stash show --patch --stat --color $@ | diff-so-fancy
 }
 
-function va {
+function require_vcsh_repository {
     if [[ -z $1 ]]; then
-        echo "va requires a repository"
-        exit 1
-    else
-        vcsh $1 add -p ${@:2}
+        echo "vcsh requires a repository"
+        return 1
     fi
+}
+
+function va {
+    require_vcsh_repository $@ || return 1
+
+    GIT_DIR=$(vcsh $1 rev-parse --git-dir) ga ${@:2}
 }
 
 
 function vc {
-    if [[ -z $1 ]]; then
-        echo "vc requires a repository"
-        return 1
-    else
-        vcsh $1 commit ${@:2}
-    fi
+    require_vcsh_repository $@ || return 1
+
+    GIT_DIR=$(vcsh $1 rev-parse --git-dir) gc ${@:2}
 }
 
 function vC {
-    if [[ -z $1 ]]; then
-        echo "vC requires a repository"
-        return 1
-    else
-        vcsh $1 checkout ${@:2}
-    fi
+    require_vcsh_repository $@ || return 1
+
+    GIT_DIR=$(vcsh $1 rev-parse --git-dir) gC ${@:2}
 }
 
-function vd {
-    vcsh $1 diff --color ${@:2} | diff-so-fancy
+function vD {
+    require_vcsh_repository $@ || return 1
+
+    GIT_DIR=$(vcsh $1 rev-parse --git-dir) gD ${@:2}
+}
+
+function vDs {
+    require_vcsh_repository $@ || return 1
+
+    GIT_DIR=$(vcsh $1 rev-parse --git-dir) gDs ${@:2}
 }
 
 function vs {
@@ -147,12 +156,9 @@ function vp {
 }
 
 function vpf {
-    if [[ -z $1 ]]; then
-        echo "vpf requires a repository"
-        return 1
-    else
-        vcsh $1 push --force ${@:2}
-    fi
+    require_vcsh_repository $@ || return 1
+
+    GIT_DIR=$(vcsh $1 rev-parse --git-dir) vpf ${@:2}
 }
 
 function vf {
