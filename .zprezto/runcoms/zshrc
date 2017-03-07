@@ -139,6 +139,12 @@ function vDs {
     GIT_DIR=$(vcsh $1 rev-parse --git-dir) gDs ${@:2}
 }
 
+function vm {
+    require_vcsh_repository $@ || return 1
+
+    GIT_DIR=$(vcsh $1 rev-parse --git-dir) gm ${@:2}
+}
+
 function vs {
     if [[ -z $1 ]]; then
         vcsh status
@@ -158,7 +164,7 @@ function vp {
 function vpf {
     require_vcsh_repository $@ || return 1
 
-    GIT_DIR=$(vcsh $1 rev-parse --git-dir) vpf ${@:2}
+    GIT_DIR=$(vcsh $1 rev-parse --git-dir) gpf ${@:2}
 }
 
 function vf {
