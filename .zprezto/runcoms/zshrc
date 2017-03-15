@@ -32,8 +32,9 @@ if [[ -s /usr/bin/virtualenvwrapper.sh ]]; then
     mkdir -p $WORKON_HOME
 fi
 
-# override prezto git gsd alias
+# override prezto aliases with functions
 alias gsd="gsd"
+alias gS="gS"
 
 alias _="sudo"
 alias sudo="sudo "
@@ -49,8 +50,11 @@ alias v="vcsh"
 alias gca="git commit --amend"
 alias gC="git checkout"
 alias gDs="gD --cached"
-alias gs="git status"
 alias gln="gl -n"
+alias gs="git status"
+alias gss="git stash save -p"
+alias gsS="git stash save --include-untracked"
+alias gS="git show"
 
 # fasd
 alias a="fasd -a"
@@ -99,6 +103,10 @@ function gps {
 
 function gsd {
     git stash show --patch --stat --color $@ | diff-so-fancy
+}
+
+function gS {
+    git show $@ | diff-so-fancy
 }
 
 function require_vcsh_repository {
