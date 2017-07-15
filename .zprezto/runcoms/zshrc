@@ -49,6 +49,7 @@ alias v="vcsh"
 
 alias gca="git commit --amend"
 alias gC="git checkout"
+alias gD="git diff"
 alias gDs="gD --cached"
 alias gln="gl -n"
 alias gs="git status"
@@ -85,10 +86,6 @@ function ga {
     else
         git add $@
     fi
-}
-
-function gD {
-    git diff --color $@ | diff-so-fancy
 }
 
 function gps {
