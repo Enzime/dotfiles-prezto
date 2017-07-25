@@ -32,10 +32,6 @@ if [[ -s /usr/bin/virtualenvwrapper.sh ]]; then
     mkdir -p $WORKON_HOME
 fi
 
-# override prezto aliases with functions
-alias gsd="gsd"
-alias gS="gS"
-
 alias _="sudo"
 alias sudo="sudo "
 alias md="mkdir"
@@ -96,14 +92,6 @@ function gps {
         echo "Not on a branch"
         return 1
     fi
-}
-
-function gsd {
-    git stash show --patch --stat --color $@ | diff-so-fancy
-}
-
-function gS {
-    git show $@ | diff-so-fancy
 }
 
 function require_vcsh_repository {
