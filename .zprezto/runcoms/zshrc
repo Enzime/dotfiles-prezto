@@ -207,6 +207,11 @@ function ranger-cd {
     rm -f -- "$tempfile"
 }
 
+function carry-ranger {
+    \ranger < $TTY
+    VISUAL=true zle edit-command-line
+}
+
 function carry-ranger-cd {
     ranger-cd
     VISUAL=true zle edit-command-line
@@ -243,6 +248,7 @@ zle -N edit-command-line
 
 zle -N folder-chooser
 zle -N file-chooser
+zle -N carry-ranger
 zle -N carry-ranger-cd
 zle -N volume-control
 zle -N open-htop
@@ -252,6 +258,7 @@ stty -ixon
 bindkey '^E^E' edit-command-line
 bindkey '^Ed' folder-chooser
 bindkey '^Ef' file-chooser
+bindkey '^Er' carry-ranger
 bindkey '^Ec' carry-ranger-cd
 bindkey '^Ea' volume-control
 bindkey '^Eh' open-htop
