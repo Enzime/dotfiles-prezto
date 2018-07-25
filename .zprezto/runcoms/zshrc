@@ -183,7 +183,7 @@ function vpf {
 
 function vf {
     if [[ -z $1 ]]; then
-        req_ssh_agent vcsh foreach fetch
+        vcsh foreach fetch
     else
         vcsh $1 fetch ${@:2}
     fi
