@@ -7,8 +7,10 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-if [[ -f ~/.dircolors ]]; then
-    eval $(dircolors ~/.dircolors)
+if [[ $(uname) == 'Linux' ]]; then
+    export OS=linux
+elif [[ $(uname) == 'Darwin' ]]; then
+    export OS=macos
 fi
 
 if [[ -f ~/.lesskey ]]; then
@@ -36,7 +38,13 @@ alias _="sudo"
 alias sudo="sudo "
 alias md="mkdir"
 alias pacman="pacmatic"
-alias ls="ls -F --color=auto"
+
+if [[ $OS == 'linux' ]]; then
+    alias ls="ls -F --color=auto"
+elif [[ $OS == 'macos' ]]; then
+    alias ls="ls -FG"
+fi
+
 alias l="ls -lah"
 alias mr="req_ssh_agent mr"
 alias mp="mpv --no-video"
@@ -90,7 +98,7 @@ function ga {
 function gps {
     branch=$(git rev-parse --abbrev-ref HEAD) || return 1
     if [[ $branch != "HEAD" ]]; then
-        git push --set-upstream origin $branch
+        git push --set-upstream fork $branch
     else
         echo "Not on a branch"
         return 1
@@ -278,4 +286,3 @@ bindkey '^L' emacs-forward-word
 
 export QT_STYLE_OVERRIDE=GTK+
 export STEAM_FRAME_FORCE_CLOSE=1
-export TERM='xterm-termite'
