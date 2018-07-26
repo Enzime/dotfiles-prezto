@@ -175,6 +175,12 @@ function vss {
     GIT_DIR=$(vcsh $1 rev-parse --git-dir) gss ${@:2}
 }
 
+function vS {
+    require_vcsh_repository $@ || return 1
+
+    GIT_DIR=$(vcsh $1 rev-parse --git-dir) gS ${@:2}
+}
+
 function vp {
     if [[ -z $1 ]]; then
         req_ssh_agent vcsh push
