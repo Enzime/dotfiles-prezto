@@ -52,6 +52,7 @@ alias ranger="ranger-cd"
 alias v="vcsh"
 
 alias gai="git add --interactive"
+alias gbv="git branch -vv"
 alias gca="git commit --amend"
 alias gco="git checkout --patch"
 alias gC="git checkout"
