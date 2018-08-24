@@ -99,7 +99,7 @@ function ga {
 function gps {
     branch=$(git rev-parse --abbrev-ref HEAD) || return 1
     if [[ $branch != "HEAD" ]]; then
-        git push --set-upstream fork $branch
+        git push --set-upstream ${1:-fork} $branch
     else
         echo "Not on a branch"
         return 1
