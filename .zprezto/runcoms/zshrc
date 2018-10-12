@@ -102,8 +102,20 @@ function ga {
 
 function gps {
     branch=$(git rev-parse --abbrev-ref HEAD) || return 1
+
+    if git remote get-url fork >/dev/null 2>&1; then
+        remote=fork
+    elif git remote get-url origin >/dev/null 2>&1; then
+        remote=origin
+    elif [[ -z $1 ]]; then
+        remote=$1
+    else
+        echo "No remote specified"
+        return 1
+    fi
+
     if [[ $branch != "HEAD" ]]; then
-        git push --set-upstream ${1:-fork} $branch
+        git push --set-upstream $remote $branch
     else
         echo "Not on a branch"
         return 1
