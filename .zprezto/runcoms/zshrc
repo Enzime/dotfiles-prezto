@@ -13,10 +13,6 @@ elif [[ $(uname) == 'Darwin' ]]; then
     export OS=macos
 fi
 
-if [[ -f ~/.lesskey ]]; then
-    lesskey
-fi
-
 if [[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
@@ -52,6 +48,9 @@ alias ranger="ranger-cd"
 alias v="vcsh"
 
 alias gai="git add --interactive"
+alias gbc="gbfm -c"
+alias gbC="gbfm -C"
+alias gbh="git switch -c"
 alias gbu="git branch --set-upstream-to"
 alias gbv="git branch -vv"
 alias gca="git commit --amend"
@@ -60,7 +59,7 @@ alias gC="git checkout"
 alias gD="git diff"
 alias gDs="gD --cached"
 alias gf="gfa --prune"
-alias gF="git fetch"
+unalias gfc
 alias gln="gl -n"
 alias gpd="gp --delete"
 alias gRv="gR -v"
@@ -86,7 +85,7 @@ function req_ssh_agent {
     fi
 
     if [[ $(ssh-add -l) = "The agent has no identities." ]]; then
-        ssh-add ~/.ssh/id_rsa
+        ssh-add
     fi
 
     $@
@@ -98,6 +97,31 @@ function ga {
     else
         git add $@
     fi
+}
+
+function gbfm {
+    if [[ ! -z $3 ]]; then
+        start=$3
+    elif [[ $(git rev-parse --abbrev-ref HEAD) == "HEAD" ]]; then
+        start=HEAD
+    elif git remote get-url upstream >/dev/null 2>&1; then
+        start=upstream
+    elif git remote get-url origin >/dev/null 2>&1; then
+        start=origin
+    else
+        echo "Unknown start point"
+        return 1
+    fi
+
+    git switch --no-track $1 $2 $start
+}
+
+function gfc {
+    git clone $@ || return 1
+    cd ./*(/om[1]) || return 1
+    default_branch=$(git branch --show-current)
+    git checkout origin || return 1
+    git branch --delete $default_branch || return 1
 }
 
 function gps {
@@ -296,8 +320,6 @@ bindkey '^Eh' open-htop
 bindkey -s '^Et' 'tt^M'
 bindkey -s ',R' 'source ~/.zshrc^M'
 
-bindkey -r '^[OA'
-bindkey -r '^[OB'
 bindkey -r '^N'
 bindkey -r '^P'
 bindkey -r '^S'
