@@ -7,45 +7,17 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-if [[ $(uname) == 'Linux' ]]; then
-    export OS=linux
-elif [[ $(uname) == 'Darwin' ]]; then
-    export OS=macos
-fi
-
 if [[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 
-export NVM_DIR="/home/enzime/.nvm"
-
-if [[ -s $NVM_DIR/nvm.sh ]]; then
-    source $NVM_DIR/nvm.sh
-fi
-
-if [[ -s /usr/bin/virtualenvwrapper.sh ]]; then
-    source /usr/bin/virtualenvwrapper.sh
-
-    export WORKON_HOME=~/.venvs
-    mkdir -p $WORKON_HOME
-fi
-
 alias _="sudo"
 alias sudo="sudo "
-alias md="mkdir"
-alias pacman="pacmatic"
 
-if [[ $OS == 'linux' ]]; then
-    alias ls="ls -F --color=auto"
-elif [[ $OS == 'macos' ]]; then
-    alias ls="ls -FG"
-fi
+alias ls="ls -F --color=auto"
 
 alias l="ls -lah"
-alias mr="req_ssh_agent mr"
-alias mp="mpv --no-video"
 alias ranger="ranger-cd"
-alias v="vcsh"
 
 alias gai="git add --interactive"
 alias gbc="gbfm -c"
@@ -67,14 +39,6 @@ alias gs="git status"
 alias gss="git stash save -p"
 alias gsS="git stash save --include-untracked"
 alias gS="git show"
-
-# fasd
-alias a="fasd -a"
-alias c="fasd_cd -d"
-alias di="fasd -d"
-alias f="fasd -f"
-alias m="fasd -e mpv -f"
-# alias v="fasd -e vim -f"
 
 export VISUAL=nvim
 export EDITOR=nvim
@@ -290,44 +254,19 @@ if exists peco; then
     bindkey '^R' peco_select_history
 fi
 
-function volume-control {
-    VISUAL=alsamixer zle edit-command-line
-}
-
-function open-htop {
-    VISUAL=htop zle edit-command-line
-}
-
 autoload -z edit-command-line
 zle -N edit-command-line
 
-zle -N folder-chooser
-zle -N file-chooser
 zle -N carry-ranger
 zle -N carry-ranger-cd
-zle -N volume-control
-zle -N open-htop
 
 stty -ixon
 
 bindkey '^E^E' edit-command-line
-bindkey '^Ed' folder-chooser
-bindkey '^Ef' file-chooser
 bindkey '^Er' carry-ranger
 bindkey '^Ec' carry-ranger-cd
-bindkey '^Ea' volume-control
-bindkey '^Eh' open-htop
-bindkey -s '^Et' 'tt^M'
 bindkey -s ',R' 'source ~/.zshrc^M'
 
 bindkey -r '^N'
 bindkey -r '^P'
 bindkey -r '^S'
-
-bindkey '^H' emacs-backward-word
-bindkey '^J' history-substring-search-down
-bindkey '^K' history-substring-search-up
-bindkey '^L' emacs-forward-word
-
-export QT_STYLE_OVERRIDE=GTK+
-export STEAM_FRAME_FORCE_CLOSE=1
