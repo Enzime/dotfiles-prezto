@@ -208,14 +208,6 @@ function vf {
     fi
 }
 
-function folder-chooser {
-    VISUAL=ranger-folder-selector zle edit-command-line
-}
-
-function file-chooser {
-    VISUAL=ranger-file-selector zle edit-command-line
-}
-
 function ranger-cd {
     tempfile=$(mktemp)
     \ranger --choosedir="$tempfile" "${@:-$(pwd)}" < $TTY
